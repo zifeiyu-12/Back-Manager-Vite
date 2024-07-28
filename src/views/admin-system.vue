@@ -1,5 +1,10 @@
 <template>
+
+  
+<!-- 超级管理员页面 -->
 <div class="bigBox">
+
+  <!-- 侧边导航栏  -->
 <div class="nav">
     <el-col >
       <div class="header"> <span class="circle">
@@ -45,8 +50,13 @@
       </el-menu>
     </el-col>
 </div>
+
+<!-- 右上不变的全局 -->
 <div class="content">
   <div class="blue"></div>
+
+
+  <!-- 右边横向tab栏 -->
   <div class="sub-nav">
     <div class="nav-left"></div>
     <span><el-icon><ArrowLeftBold /></el-icon></span>
