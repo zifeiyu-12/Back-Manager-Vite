@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import LoginView from "../views/login.vue";
-import AdminSystemView from "../views/admin-system.vue-system.vue"; //提供组件
+import AdminSystemView from "../views/admin-system.vue"; //提供组件
 import UserSystemView from '../views/user-system.vue';
 import HomeView from '../components/home.vue';
 import personManage from "../components/person-manage.vue";
