@@ -2,7 +2,7 @@
   <div class="common-layout">
     <!-- ElementUI 预设布局 -->
     <el-container>
-      <el-aside width="20%">
+      <el-aside width="200px">
         <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
@@ -50,8 +50,8 @@
       </el-aside>
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
-        <el-header height="85px" width="80%" class="tabs-box">
-          <div class="blue"> <el-button type="primary" class="sign-out" >退出登录</el-button></div>
+        <el-header height="85px">
+          <div class="blue"></div>
           <el-tabs
             v-model="editableTabsValue"
             type="card"
@@ -114,15 +114,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-.common-layout{
-margin: -8px;
-}
-
-.tabs-box{
-  padding: 0;
-}
-
 .circle {
   height: 30px;
   width: 30px;
@@ -156,11 +147,5 @@ margin: -8px;
   width: 100%;
   height: 60px;
   background-color: #006eff;
-}
-
-.sign-out{
-  position: absolute;
-  right: 15px;
-  top: 12px;
 }
 </style>
