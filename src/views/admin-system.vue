@@ -12,13 +12,14 @@
         </div>
         <!-- 侧边==导航栏 -->
         <el-menu
-          default-active="1"
-          @open="handleMenuOpen"
-          @close="handleClose"
+          :default-active="this.$route.name"
+          class="el-menu-vertical-demo"
+          @click="handleMenuOpen(this.$route.name)"
           style="user-select: none"
+          router
         >
           <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
-          <el-menu-item index="1">
+          <el-menu-item index="home">
             <el-icon><House /></el-icon>
             <span>首页</span>
           </el-menu-item>
@@ -27,22 +28,24 @@
               <el-icon><User /></el-icon>
               <span>考核管理</span>
             </template>
-            <el-menu-item index="2-1">人员管理</el-menu-item>
-            <el-menu-item index="2-2">考核管理</el-menu-item>
-            <el-menu-item index="2-3">预约管理</el-menu-item>
-            <el-menu-item index="2-4">公告设置</el-menu-item>
+            <el-menu-item index="person-management">人员管理</el-menu-item>
+            <el-menu-item index="evalution-management">考核管理</el-menu-item>
+            <el-menu-item index="appointment-management">预约管理</el-menu-item>
+            <el-menu-item index="announcement-management"
+              >公告设置</el-menu-item
+            >
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
               <el-icon><Message /></el-icon>
               <span>信息管理</span>
             </template>
-            <el-menu-item index="3-1">团队介绍</el-menu-item>
-            <el-menu-item index="3-2">组别介绍</el-menu-item>
-            <el-menu-item index="3-3">项目介绍</el-menu-item>
-            <el-menu-item index="3-4">精选推文</el-menu-item>
+            <el-menu-item index="group-intro">团队介绍</el-menu-item>
+            <el-menu-item index="team-intro">组别介绍</el-menu-item>
+            <el-menu-item index="project-intro">项目介绍</el-menu-item>
+            <el-menu-item index="selected-post">精选推文</el-menu-item>
           </el-sub-menu>
-          <el-menu-item index="4">
+          <el-menu-item index="account-management">
             <el-icon><User /></el-icon>
             <span>账号管理</span>
           </el-menu-item>
@@ -51,7 +54,11 @@
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
         <el-header height="85px" width="80%" class="tabs-box">
-          <div class="blue"> <el-button type="primary" class="sign-out" >退出登录</el-button></div>
+          <div class="blue">
+            <el-button type="primary" class="sign-out">
+              <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
+            </el-button>
+          </div>
           <el-tabs
             v-model="editableTabsValue"
             type="card"
@@ -72,7 +79,6 @@
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
-          <span>main内容</span>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -81,6 +87,7 @@
 </template>
 
 <script>
+import { SwitchButton } from "@element-plus/icons";
 export default {
   data() {
     return {
@@ -101,25 +108,37 @@ export default {
     };
   },
   methods: {
-    handleMenuOpen(key, keyPath) {
-      //回调函数 -- 点击菜单
-      console.log(key, keyPath);
+    handleMenuOpen(keyPath) {
+      //回调函数 -- 点击菜单 -> 增加标签页
+      console.log(keyPath);
+      const newTabName = `${++this.tabIndex}`;
+      this.editableTabs.value.push({
+        title: "New Tab",
+        name: keyPath,
+        content: "",
+      });
+      this.editableTabsValue.value = newTabName;
     },
-    handleClose(key, keyPath) {
+    handleMenuClose(key, keyPath) {
       //回调函数 -- 关闭菜单
       console.log(key, keyPath);
     },
+    clickTab(key, keyPath) {
+      console.log(key, keyPath);
+    },
+  },
+  mounted: function () {
+    console.log(this.$route);
   },
 };
 </script>
 
 <style lang="css" scoped>
-
-.common-layout{
-margin: -8px;
+.common-layout {
+  margin: -8px;
 }
 
-.tabs-box{
+.tabs-box {
   padding: 0;
 }
 
@@ -158,7 +177,7 @@ margin: -8px;
   background-color: #006eff;
 }
 
-.sign-out{
+.sign-out {
   position: absolute;
   right: 15px;
   top: 12px;

@@ -4,7 +4,7 @@
     <div class="login-modal">
       <el-row justify="center">
         <el-input
-          v-model:value="username"
+          v-model="username"
           style="width: 70%; height: 40px; border-radius: 50%; margin-top: 40px"
           placeholder="请输入账号"
         >
@@ -15,7 +15,7 @@
       </el-row>
       <el-row justify="center">
         <el-input
-          v-model:value="password"
+          v-model="password"
           style="width: 70%; height: 40px; margin-top: 40px"
           type="password"
           placeholder="请输入密码"
