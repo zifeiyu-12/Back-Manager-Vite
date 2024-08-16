@@ -31,52 +31,52 @@ const routes = [
       {
         path: "home", //首页
         component: HomeView,
-        name: "home",
+        name: "首页",
       },
       {
         path: "person-management", //考核管理-人员管理
         component: personManage,
-        name: "person-management",
+        name: "人员管理",
       },
       {
         path: "evalution-management", //考核管理-考核管理
         component: evalutionManage,
-        name: "evalution-management",
+        name: "考核管理",
       },
       {
         path: "appointment-management", // 考核管理-预约管理
         component: appointmentManage,
-        name: "appointment-management",
+        name: "预约管理",
       },
       {
         path: "announcement-management", //考核管理-公告设置
         component: announcementManage,
-        name: "announcement-management",
+        name: "公告设置",
       },
       {
         path: "group-intro", //信息管理-团队介绍
         component: groupIntro,
-        name: "group-intro",
+        name: "团队介绍",
       },
       {
         path: "team-intro", //信息管理-组别介绍
         component: teamIntro,
-        name: "team-intro",
+        name: "组别介绍",
       },
       {
         path: "project-intro", //信息管理-项目介绍
         component: projectIntro,
-        name: "project-intro",
+        name: "项目介绍",
       },
       {
         path: "selected-post", //信息管理-精选推文
         component: selectedIntro,
-        name: "selected-post",
+        name: "精选推文",
       },
       {
         path: "account-management", //账号管理
         component: accountManage,
-        name: "account-management",
+        name: "账号管理",
       },
     ],
     meta: {

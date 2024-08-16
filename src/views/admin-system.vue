@@ -2,7 +2,7 @@
   <div class="common-layout">
     <!-- ElementUI 预设布局 -->
     <el-container>
-      <el-aside width="20%">
+      <el-aside width="16%">
         <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
@@ -14,7 +14,7 @@
         <el-menu
           :default-active="this.$route.name"
           class="el-menu-vertical-demo"
-          @click="handleMenuOpen(this.$route.name)"
+          @click="handleMenuOpen(this.$route.name,this.$route.path)"
           style="user-select: none"
           router
         >
@@ -28,10 +28,10 @@
               <el-icon><User /></el-icon>
               <span>考核管理</span>
             </template>
-            <el-menu-item index="person-management">人员管理</el-menu-item>
-            <el-menu-item index="evalution-management">考核管理</el-menu-item>
-            <el-menu-item index="appointment-management">预约管理</el-menu-item>
-            <el-menu-item index="announcement-management"
+            <el-menu-item class="menu-item" index="person-management">人员管理</el-menu-item>
+            <el-menu-item class="menu-item" index="evalution-management">考核管理</el-menu-item>
+            <el-menu-item class="menu-item" index="appointment-management">预约管理</el-menu-item>
+            <el-menu-item class="menu-item" index="announcement-management"
               >公告设置</el-menu-item
             >
           </el-sub-menu>
@@ -40,10 +40,11 @@
               <el-icon><Message /></el-icon>
               <span>信息管理</span>
             </template>
-            <el-menu-item index="group-intro">团队介绍</el-menu-item>
-            <el-menu-item index="team-intro">组别介绍</el-menu-item>
-            <el-menu-item index="project-intro">项目介绍</el-menu-item>
-            <el-menu-item index="selected-post">精选推文</el-menu-item>
+    
+            <el-menu-item class="menu-item" index="group-intro">团队介绍</el-menu-item>
+            <el-menu-item class="menu-item" index="team-intro">组别介绍</el-menu-item>
+            <el-menu-item class="menu-item" index="project-intro">项目介绍</el-menu-item>
+            <el-menu-item class="menu-item" index="selected-post">精选推文</el-menu-item>
           </el-sub-menu>
           <el-menu-item index="account-management">
             <el-icon><User /></el-icon>
@@ -53,7 +54,7 @@
       </el-aside>
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
-        <el-header height="85px" width="80%" class="tabs-box">
+        <el-header height="85px" class="tabs-box">
           <div class="blue">
             <el-button type="primary" class="sign-out">
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
@@ -91,45 +92,74 @@ import { SwitchButton } from "@element-plus/icons";
 export default {
   data() {
     return {
+      goRouter: "",
+      isCommen: false,
       tabIndex: 1,
-      editableTabsValue: "1",
+      editableTabsValue: "/superadmin-system/home",
       editableTabs: [
         {
           title: "首页",
-          name: "1",
-          content: "",
-        },
-        {
-          title: "test",
-          name: "2",
+          name: "/superadmin-system/home",
           content: "",
         },
       ],
     };
   },
   methods: {
-    handleMenuOpen(keyPath) {
+    handleMenuOpen(keyPath,Path) {
       //回调函数 -- 点击菜单 -> 增加标签页
+      this.isCommen = false;
       console.log(keyPath);
+      let activeName = this.editableTabsValue;
+      let tabs = this.editableTabs;
+      this.editableTabsValue = activeName;
+      //相同标签页直接跳回去
+      for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].title === keyPath) {
+        activeName = i;
+        this.isCommen = true;
+        this.editableTabsValue = `${Path}`;
+        break; 
+    }
+  }
+      if(this.isCommen) return
       const newTabName = `${++this.tabIndex}`;
-      this.editableTabs.value.push({
-        title: "New Tab",
-        name: keyPath,
+      this.editableTabs.push({
+        title: `${keyPath}`,
+        name: `${Path}`,
         content: "",
       });
-      this.editableTabsValue.value = newTabName;
+      this.editableTabsValue = `${Path}`;
     },
     handleMenuClose(key, keyPath) {
       //回调函数 -- 关闭菜单
       console.log(key, keyPath);
     },
-    clickTab(key, keyPath) {
-      console.log(key, keyPath);
+    clickTab(key) {
+      console.log(key);
+      this.goRouter = key['props'].name
+      this.$router.push(`${this.goRouter}`);
     },
+    removeTab(targetName) {
+      let tabs = this.editableTabs;
+      let activeName = this.editableTabsValue;
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1];
+            if (nextTab) {
+              activeName = nextTab.name;
+            }
+          }
+        });
+      }
+      this.editableTabsValue = activeName;
+      this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
   },
   mounted: function () {
     console.log(this.$route);
   },
+},
 };
 </script>
 
@@ -181,5 +211,9 @@ export default {
   position: absolute;
   right: 15px;
   top: 12px;
+}
+
+.menu-item {
+  margin-left: 10px;
 }
 </style>
