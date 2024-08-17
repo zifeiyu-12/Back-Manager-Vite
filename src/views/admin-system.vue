@@ -94,12 +94,14 @@ export default {
     return {
       goRouter: "",
       isCommen: false,
+      menuTitle: "",
+    
       tabIndex: 1,
-      editableTabsValue: "/superadmin-system/home",
-      editableTabs: [
+      editableTabsValue: JSON.parse(localStorage.getItem("editableTabsValue")) || "home",
+      editableTabs:JSON.parse(localStorage.getItem("editableTabs")) || [
         {
           title: "首页",
-          name: "/superadmin-system/home",
+          name: "home",
           content: "",
         },
       ],
@@ -109,36 +111,74 @@ export default {
     handleMenuOpen(keyPath,Path) {
       //回调函数 -- 点击菜单 -> 增加标签页
       this.isCommen = false;
-      console.log(keyPath);
       let activeName = this.editableTabsValue;
       let tabs = this.editableTabs;
       this.editableTabsValue = activeName;
       //相同标签页直接跳回去
       for (let i = 0; i < tabs.length; i++) {
-        if (tabs[i].title === keyPath) {
+        if (tabs[i].name === keyPath) {
         activeName = i;
         this.isCommen = true;
-        this.editableTabsValue = `${Path}`;
+        this.editableTabsValue = keyPath;
         break; 
-    }
+        }
   }
+      localStorage.setItem("editableTabsValue", JSON.stringify(this.editableTabsValue));
       if(this.isCommen) return
-      const newTabName = `${++this.tabIndex}`;
+      console.log(this.isCommen);
+      
+      switch (keyPath) {  
+        case 'home':  
+          this.menuTitle = '首页';  
+          break;  
+        case 'person-management':  
+          this.menuTitle = '人员管理';  
+          break;  
+        case 'evalution-management':  
+          this.menuTitle = '考核管理';  
+          break;  
+        case 'appointment-management':  
+          this.menuTitle = '预约管理';  
+          break;  
+        case 'announcement-management':  
+          this.menuTitle = '公告设置';  
+          break;  
+        case 'group-intro':  
+          this.menuTitle = '团队介绍';  
+          break;  
+        case 'team-intro':  
+          this.menuTitle = '组别介绍';  
+          break;  
+        case 'project-intro':  
+          this.menuTitle = '项目介绍';  
+          break;  
+        case 'selected-post':  
+          this.menuTitle = '精选推文';
+          break;
+        case 'account-management':  
+          this.menuTitle = '账号管理';
+          break;
+        default:  
+          this.menuTitle = keyPath; // Fallback to keyPath if not matched  
+          break;  
+  }  
+      console.log(this.menuTitle);
       this.editableTabs.push({
-        title: `${keyPath}`,
-        name: `${Path}`,
+        title: this.menuTitle,
+        name: keyPath,
         content: "",
       });
-      this.editableTabsValue = `${Path}`;
+      this.editableTabsValue = keyPath;
+      this.activeMenu = keyPath;
     },
     handleMenuClose(key, keyPath) {
       //回调函数 -- 关闭菜单
       console.log(key, keyPath);
     },
     clickTab(key) {
-      console.log(key);
       this.goRouter = key['props'].name
-      this.$router.push(`${this.goRouter}`);
+      this.$router.push(this.goRouter);
+      this.editableTabsValue = this.goRouter;
     },
     removeTab(targetName) {
       let tabs = this.editableTabs;
@@ -154,13 +194,28 @@ export default {
         });
       }
       this.editableTabsValue = activeName;
+      this.$router.push(activeName)
       this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
   },
-  mounted: function () {
-    console.log(this.$route);
-  },
 },
-};
+mounted: function () {
+    this.activeMenu = 'home';
+  },
+watch: {  
+    editableTabsValue: {  
+      deep: true,  
+      handler(newValue) {  
+        localStorage.setItem("editableTabsValue", JSON.stringify(newValue));  
+      },  
+    },
+      editableTabs:{  
+      deep: true,  
+      handler(newValue) {  
+        localStorage.setItem("editableTabs", JSON.stringify(newValue));  
+      },  
+    },
+  },  
+}
 </script>
 
 <style lang="css" scoped>
