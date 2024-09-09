@@ -14,8 +14,8 @@
         <el-menu
           :default-active="this.$route.name"
           class="el-menu-vertical-demo"
-          @click="handleMenuOpen(this.$route.name,this.$route.path)"
-          style="user-select: none"
+          @click="handleMenuOpen(this.$route.name, this.$route.path)"
+          style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
           <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
@@ -28,9 +28,15 @@
               <el-icon><User /></el-icon>
               <span>考核管理</span>
             </template>
-            <el-menu-item class="menu-item" index="person-management">人员管理</el-menu-item>
-            <el-menu-item class="menu-item" index="evalution-management">考核管理</el-menu-item>
-            <el-menu-item class="menu-item" index="appointment-management">预约管理</el-menu-item>
+            <el-menu-item class="menu-item" index="person-management"
+              >人员管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="evalution-management"
+              >考核管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="appointment-management"
+              >预约管理</el-menu-item
+            >
             <el-menu-item class="menu-item" index="announcement-management"
               >公告设置</el-menu-item
             >
@@ -40,11 +46,19 @@
               <el-icon><Message /></el-icon>
               <span>信息管理</span>
             </template>
-    
-            <el-menu-item class="menu-item" index="group-intro">团队介绍</el-menu-item>
-            <el-menu-item class="menu-item" index="team-intro">组别介绍</el-menu-item>
-            <el-menu-item class="menu-item" index="project-intro">项目介绍</el-menu-item>
-            <el-menu-item class="menu-item" index="selected-post">精选推文</el-menu-item>
+
+            <el-menu-item class="menu-item" index="group-intro"
+              >团队介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="team-intro"
+              >组别介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="project-intro"
+              >项目介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="selected-post"
+              >精选推文</el-menu-item
+            >
           </el-sub-menu>
           <el-menu-item index="account-management">
             <el-icon><User /></el-icon>
@@ -60,23 +74,25 @@
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <el-tabs
-            v-model="editableTabsValue"
-            type="card"
-            class="demo-tabs"
-            closable
-            @tab-click="clickTab"
-            @tab-remove="removeTab"
-          >
-            <el-tab-pane
-              v-for="item in editableTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
+          <KeepAlive
+            ><el-tabs
+              v-model="editableTabsValue"
+              type="card"
+              class="demo-tabs"
+              closable
+              @tab-click="clickTab"
+              @tab-remove="removeTab"
             >
-              {{ item.content }}
-            </el-tab-pane>
-          </el-tabs>
+              <el-tab-pane
+                v-for="item in editableTabs"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
+              >
+                {{ item.content }}
+              </el-tab-pane>
+            </el-tabs></KeepAlive
+          >
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -95,10 +111,11 @@ export default {
       goRouter: "",
       isCommen: false,
       menuTitle: "",
-    
+
       tabIndex: 1,
-      editableTabsValue: JSON.parse(localStorage.getItem("editableTabsValue")) || "home",
-      editableTabs:JSON.parse(localStorage.getItem("editableTabs")) || [
+      editableTabsValue:
+        JSON.parse(localStorage.getItem("editableTabsValue")) || "home",
+      editableTabs: JSON.parse(localStorage.getItem("editableTabs")) || [
         {
           title: "首页",
           name: "home",
@@ -108,7 +125,7 @@ export default {
     };
   },
   methods: {
-    handleMenuOpen(keyPath,Path) {
+    handleMenuOpen(keyPath, Path) {
       //回调函数 -- 点击菜单 -> 增加标签页
       this.isCommen = false;
       let activeName = this.editableTabsValue;
@@ -117,51 +134,54 @@ export default {
       //相同标签页直接跳回去
       for (let i = 0; i < tabs.length; i++) {
         if (tabs[i].name === keyPath) {
-        activeName = i;
-        this.isCommen = true;
-        this.editableTabsValue = keyPath;
-        break; 
+          activeName = i;
+          this.isCommen = true;
+          this.editableTabsValue = keyPath;
+          break;
         }
-  }
-      localStorage.setItem("editableTabsValue", JSON.stringify(this.editableTabsValue));
-      if(this.isCommen) return
+      }
+      localStorage.setItem(
+        "editableTabsValue",
+        JSON.stringify(this.editableTabsValue)
+      );
+      if (this.isCommen) return;
       console.log(this.isCommen);
-      
-      switch (keyPath) {  
-        case 'home':  
-          this.menuTitle = '首页';  
-          break;  
-        case 'person-management':  
-          this.menuTitle = '人员管理';  
-          break;  
-        case 'evalution-management':  
-          this.menuTitle = '考核管理';  
-          break;  
-        case 'appointment-management':  
-          this.menuTitle = '预约管理';  
-          break;  
-        case 'announcement-management':  
-          this.menuTitle = '公告设置';  
-          break;  
-        case 'group-intro':  
-          this.menuTitle = '团队介绍';  
-          break;  
-        case 'team-intro':  
-          this.menuTitle = '组别介绍';  
-          break;  
-        case 'project-intro':  
-          this.menuTitle = '项目介绍';  
-          break;  
-        case 'selected-post':  
-          this.menuTitle = '精选推文';
+
+      switch (keyPath) {
+        case "home":
+          this.menuTitle = "首页";
           break;
-        case 'account-management':  
-          this.menuTitle = '账号管理';
+        case "person-management":
+          this.menuTitle = "人员管理";
           break;
-        default:  
-          this.menuTitle = keyPath; // Fallback to keyPath if not matched  
-          break;  
-  }  
+        case "evalution-management":
+          this.menuTitle = "考核管理";
+          break;
+        case "appointment-management":
+          this.menuTitle = "预约管理";
+          break;
+        case "announcement-management":
+          this.menuTitle = "公告设置";
+          break;
+        case "group-intro":
+          this.menuTitle = "团队介绍";
+          break;
+        case "team-intro":
+          this.menuTitle = "组别介绍";
+          break;
+        case "project-intro":
+          this.menuTitle = "项目介绍";
+          break;
+        case "selected-post":
+          this.menuTitle = "精选推文";
+          break;
+        case "account-management":
+          this.menuTitle = "账号管理";
+          break;
+        default:
+          this.menuTitle = keyPath; // Fallback to keyPath if not matched
+          break;
+      }
       console.log(this.menuTitle);
       this.editableTabs.push({
         title: this.menuTitle,
@@ -176,7 +196,7 @@ export default {
       console.log(key, keyPath);
     },
     clickTab(key) {
-      this.goRouter = key['props'].name
+      this.goRouter = key["props"].name;
       this.$router.push(this.goRouter);
       this.editableTabsValue = this.goRouter;
     },
@@ -194,28 +214,28 @@ export default {
         });
       }
       this.editableTabsValue = activeName;
-      this.$router.push(activeName)
+      this.$router.push(activeName);
       this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
-  },
-},
-mounted: function () {
-    this.activeMenu = 'home';
-  },
-watch: {  
-    editableTabsValue: {  
-      deep: true,  
-      handler(newValue) {  
-        localStorage.setItem("editableTabsValue", JSON.stringify(newValue));  
-      },  
     },
-      editableTabs:{  
-      deep: true,  
-      handler(newValue) {  
-        localStorage.setItem("editableTabs", JSON.stringify(newValue));  
-      },  
+  },
+  mounted: function () {
+    this.activeMenu = "home";
+  },
+  watch: {
+    editableTabsValue: {
+      deep: true,
+      handler(newValue) {
+        localStorage.setItem("editableTabsValue", JSON.stringify(newValue));
+      },
     },
-  },  
-}
+    editableTabs: {
+      deep: true,
+      handler(newValue) {
+        localStorage.setItem("editableTabs", JSON.stringify(newValue));
+      },
+    },
+  },
+};
 </script>
 
 <style lang="css" scoped>

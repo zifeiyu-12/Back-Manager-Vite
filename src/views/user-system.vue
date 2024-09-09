@@ -8,13 +8,13 @@
           <span class="circle">
             <el-icon><Monitor /></el-icon>
           </span>
-          <h5 class="nav-header">{{$route.params.oid}}</h5>
+          <h5 class="nav-header">{{ $route.params.oid }}</h5>
         </div>
         <!-- 侧边==导航栏 -->
         <el-menu
           :default-active="$route.meta.activeMenu"
           class="el-menu-vertical-demo"
-          style="user-select: none"
+          style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
           <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
@@ -30,7 +30,9 @@
             <el-menu-item index="person-management">人员管理</el-menu-item>
             <el-menu-item index="evalution-management">考核管理</el-menu-item>
             <el-menu-item index="appointment-management">预约管理</el-menu-item>
-            <el-menu-item index="announcement-management">公告设置</el-menu-item>
+            <el-menu-item index="announcement-management"
+              >公告设置</el-menu-item
+            >
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
@@ -42,7 +44,6 @@
             <el-menu-item index="project-intro">项目介绍</el-menu-item>
             <el-menu-item index="selected-post">精选推文</el-menu-item>
           </el-sub-menu>
-         
         </el-menu>
       </el-aside>
       <el-container>
@@ -53,25 +54,25 @@
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <keep-alive>
-          <el-tabs
-            v-model="xStore.state.activeIndex"
-            type="card"
-            class="demo-tabs"
-            closable
-            @tab-change="clickTab"
-            @tab-remove="removeTab"
-            style="user-select: none;"
-          >
-            <el-tab-pane
-              v-for="item in xStore.state.openTab"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
-            > 
-            </el-tab-pane>
-          </el-tabs>
-          </keep-alive>
+          <KeepAlive>
+            <el-tabs
+              v-model="xStore.state.activeIndex"
+              type="card"
+              class="demo-tabs"
+              closable
+              @tab-change="clickTab"
+              @tab-remove="removeTab"
+              style="user-select: none"
+            >
+              <el-tab-pane
+                v-for="item in xStore.state.openTab"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
+              >
+              </el-tab-pane>
+            </el-tabs>
+          </KeepAlive>
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -91,48 +92,53 @@ const router = useRouter();
 const route = useRoute();
 const xStore = useStore();
 
-const clickTab = async () => {  //点击标签 跳转至 对应 路由
+const clickTab = async () => {
+  //点击标签 跳转至 对应 路由
   // console.log('active', xStore.state.activeIndex);
   router.push(xStore.state.activeIndex);
-}
+};
 
 const removeTab = (name) => {
-  xStore.commit('deleteTab', name);
-  if (xStore.state.activeIndex === name) {  //如果选中状态的标签被删除
+  xStore.commit("deleteTab", name);
+  if (xStore.state.activeIndex === name) {
+    //如果选中状态的标签被删除
     //重新设置激活的标签 并 跳转 对应路由
     if (xStore.state.openTab.length >= 1) {
-      xStore.commit('setActiveTab', xStore.state.openTab[xStore.state.openTab.length - 1].name);
-      router.push({ path: xStore.state.openTab[xStore.state.openTab.length - 1].name });
+      xStore.commit(
+        "setActiveTab",
+        xStore.state.openTab[xStore.state.openTab.length - 1].name
+      );
+      router.push({
+        path: xStore.state.openTab[xStore.state.openTab.length - 1].name,
+      });
     } else {
-      xStore.commit('addTab',{title:'首页',name:'home'})
-      xStore.commit('setActiveTab', 'home');
-      router.push('home');
+      xStore.commit("addTab", { title: "首页", name: "home" });
+      xStore.commit("setActiveTab", "home");
+      router.push("home");
     }
   }
-}
+};
 
 const signOut = () => {
   xStore.state.openTab = [];
-  sessionStorage.removeItem('state');
-}
+  sessionStorage.removeItem("state");
+};
 
 onMounted(() => {
-  xStore.commit('setActiveTab', route.meta.activeMenu);
+  xStore.commit("setActiveTab", route.meta.activeMenu);
   console.log(route.meta);
-  if (route.path == 'user-system/home') {
-    console.log(route.path)
+  if (route.path == "user-system/home") {
+    console.log(route.path);
   }
 });
-
 </script>
 
 <style lang="css" scoped>
-
-.common-layout{
-margin: -8px;
+.common-layout {
+  margin: -8px;
 }
 
-.tabs-box{
+.tabs-box {
   padding: 0;
 }
 
@@ -171,7 +177,7 @@ margin: -8px;
   background-color: #006eff;
 }
 
-.sign-out{
+.sign-out {
   position: absolute;
   right: 15px;
   top: 12px;

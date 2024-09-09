@@ -7,6 +7,7 @@
 import { useStore } from "vuex";
 import router from "./routes";
 import { onMounted } from "vue";
+
 const store = useStore();
 
 onMounted(() => {
@@ -37,7 +38,7 @@ router.beforeEach(async (to, from) => {
     to.meta.activeMenu != "project-intro" &&
     to.meta.activeMenu != "selected-post"
   ) {
-    return;  //无视无效页面
+    return; //无视无效页面
   }
   //判断新打开的页面是否已经在tab标签页之中，避免重复，以及保持选中高亮
   let tabRepeat = false;
@@ -58,13 +59,7 @@ router.beforeEach(async (to, from) => {
     store.commit("setActiveTab", to.meta.activeMenu);
     //前往的页面在标签中不存在->添加标签->将其标签高亮
   }
-  //前置路径守卫 将 部分页面 重定向至 首页
-  if (
-    to.fullPath === "user-system" ||
-    to.fullPath === `user-system/${store.state.rule}`
-  ) {
-    router.push(`user-system/${store.state.rule}/home`);
-  }
+
 });
 </script>
 
