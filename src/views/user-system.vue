@@ -81,6 +81,7 @@
       </el-container>
     </el-container>
   </div>
+</div></div>
 </template>
 
 <script setup>
@@ -133,6 +134,8 @@ onMounted(() => {
 });
 </script>
 
+
+
 <style lang="css" scoped>
 .common-layout {
   margin: -8px;
@@ -142,7 +145,7 @@ onMounted(() => {
   padding: 0;
 }
 
-.circle {
+.circle{
   height: 30px;
   width: 30px;
   border-radius: 50cqb;
@@ -153,25 +156,51 @@ onMounted(() => {
   color: white;
 }
 
-.header {
+.header{
   margin-left: 20px;
   width: 100px;
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content:space-between;
+  
 }
 
-.nav-header {
-  font-size: 18px;
-  font-weight: 400;
-  color: #006eff;
+.nav-header{
+  font-size: 22px;
+  color:#006eff;
 }
 
-.blue {
-  position: relative;
-  top: 0;
-  left: 0;
+span{
+  width: 300px;
+   font-size: 15px;
+  color: #778187;
+}
+span:hover {
+ color:#006eff;
+}
+
+.menu-item:hover{
+ color:#006eff;
+
+}
+
+.menu-item{
+  font-size: 15px;
+  color: #778187;
+  background-color: #f7f7f7
+}
+.nav{
+  width: 20%;
+}
+
+.content{
+width: 80%;
+height: 500px;
+background-color: #fff;
+}
+
+.blue{
   width: 100%;
   height: 60px;
   background-color: #006eff;
@@ -182,4 +211,32 @@ onMounted(() => {
   right: 15px;
   top: 12px;
 }
+
+.nav-left{
+  float: left;
+}
+
+.nav-right{
+  float:right
+}
+
+.sub-nav span{
+
+  font-size: 17px;
+  padding:15px;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+ /* display: inline-block; */
+  border-left: 0;
+  border-right:1px solid #e4e4e4;
+}
+
+
+.update{
+padding-right: 10px;
+font-size: 17px;
+
+}
+
 </style>
