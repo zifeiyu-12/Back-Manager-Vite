@@ -1,20 +1,20 @@
 <template>
-  <!-- 组别成员页面 -->
-  <div class="bigBox">
-    <!-- 侧边导航栏 组别成员无账号管理选项 -->
-    <div class="nav">
-      <el-col>
+  <div class="common-layout">
+    <!-- ElementUI 预设布局 -->
+    <el-container>
+      <el-aside width="200px">
+        <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
             <el-icon><Monitor /></el-icon>
           </span>
-          <h5 class="nav-header">运营组</h5>
+          <h5 class="nav-header">{{ $route.params.oid }}</h5>
         </div>
 
         <el-menu
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
+          style="user-select: none; min-height: calc(100% - 60px)"
+          router
         >
           <el-menu-item>
             <span
@@ -27,10 +27,12 @@
                 ><el-icon><User /></el-icon>考核管理
               </span>
             </template>
-            <el-menu-item class="menu-item">人员管理</el-menu-item>
-            <el-menu-item class="menu-item">考核管理</el-menu-item>
-            <el-menu-item class="menu-item">预约管理</el-menu-item>
-            <el-menu-item class="menu-item">公告设置</el-menu-item>
+            <el-menu-item index="person-management">人员管理</el-menu-item>
+            <el-menu-item index="evalution-management">考核管理</el-menu-item>
+            <el-menu-item index="appointment-management">预约管理</el-menu-item>
+            <el-menu-item index="announcement-management"
+              >公告设置</el-menu-item
+            >
           </el-sub-menu>
           <el-sub-menu>
             <template #title>
@@ -44,31 +46,41 @@
             <el-menu-item class="menu-item">精选推文</el-menu-item>
           </el-sub-menu>
         </el-menu>
-      </el-col>
-    </div>
-
-    <!-- 右上不变的全局 -->
-    <div class="content">
-      <div class="blue"></div>
-
-      <!-- 右边横向tab栏 -->
-      <div class="sub-nav">
-        <div class="nav-left"></div>
-        <span
-          ><el-icon><ArrowLeftBold /></el-icon
-        ></span>
-        <span>首页</span>
-        <span>团队介绍</span>
-        <div class="nav-right">
-          <span
-            ><el-icon><ArrowRightBold /></el-icon
-          ></span>
-          <span class="update-box"
-            ><el-icon class="update"><Refresh /></el-icon> 刷新</span
-          >
-        </div>
-      </div>
-    </div>
+      </el-aside>
+      <el-container>
+        <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
+        <el-header height="85px" width="80%" class="tabs-box">
+          <div class="blue">
+            <el-button type="primary" class="sign-out" @click="signOut">
+              <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
+            </el-button>
+          </div>
+          <KeepAlive>
+            <el-tabs
+              v-model="xStore.state.activeIndex"
+              type="card"
+              class="demo-tabs"
+              closable
+              @tab-change="clickTab"
+              @tab-remove="removeTab"
+              style="user-select: none"
+            >
+              <el-tab-pane
+                v-for="item in xStore.state.openTab"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
+              >
+              </el-tab-pane>
+            </el-tabs>
+          </KeepAlive>
+        </el-header>
+        <el-main>
+          <!-- 主题==重要内容 -->
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -123,12 +135,12 @@ onMounted(() => {
 </script>
 
 <style lang="css" scoped>
-.sub-nav span {
-  cursor: pointer;
+.common-layout {
+  margin: -8px;
 }
 
-.bigBox {
-  display: flex;
+.tabs-box {
+  padding: 0;
 }
 
 .circle {
@@ -190,12 +202,10 @@ span:hover {
   background-color: #006eff;
 }
 
-.sub-nav {
-  margin-top: 2px;
-  width: 100%;
-  height: 50px;
-  background-color: #fff;
-  border-bottom: 1px solid #e4e4e4;
+.sign-out {
+  position: absolute;
+  right: 15px;
+  top: 12px;
 }
 
 .nav-left {

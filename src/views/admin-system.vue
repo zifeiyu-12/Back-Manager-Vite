@@ -15,7 +15,7 @@
           :default-active="this.$route.name"
           class="el-menu-vertical-demo"
           @click="handleMenuOpen(this.$route.name, this.$route.path)"
-          style="user-select: none"
+          style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
           <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
@@ -74,23 +74,25 @@
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <el-tabs
-            v-model="editableTabsValue"
-            type="card"
-            class="demo-tabs"
-            closable
-            @tab-click="clickTab"
-            @tab-remove="removeTab"
-          >
-            <el-tab-pane
-              v-for="item in editableTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
+          <KeepAlive
+            ><el-tabs
+              v-model="editableTabsValue"
+              type="card"
+              class="demo-tabs"
+              closable
+              @tab-click="clickTab"
+              @tab-remove="removeTab"
             >
-              {{ item.content }}
-            </el-tab-pane>
-          </el-tabs>
+              <el-tab-pane
+                v-for="item in editableTabs"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
+              >
+                {{ item.content }}
+              </el-tab-pane>
+            </el-tabs></KeepAlive
+          >
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->

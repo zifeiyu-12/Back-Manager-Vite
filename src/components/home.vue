@@ -4,12 +4,13 @@
       <h3>实时分析</h3>
       <el-row>
         <el-col :span="4" class="increase">
-          <div style="text-align: center; margin-top: 10px; font-size: 14px">
+          <div style="text-align: center; margin-top: 12px; font-size: 16px">
             今日新增报名
           </div>
           <div
             style="
-              font-size: 24px;
+              font-size: 28px;
+              font-weight: 500;
               margin-top: 25px;
               margin-left: -25%;
               text-align: center;
@@ -30,19 +31,22 @@
           </span>
           <span style="margin-left: 10px">
             <span>
-              <el-icon style="top: 3px" v-if="up"><Top /></el-icon>
+              <el-icon style="top: 3px" v-if="up" color="red"><Top /></el-icon>
             </span>
             <span>
-              <el-icon style="top: 3px" v-if="down"><Bottom /></el-icon>
+              <el-icon style="top: 3px" v-if="down" color="green"
+                ><Bottom
+              /></el-icon>
             </span>
           </span>
         </el-col>
         <el-col :span="5" :offset="1" class="cumulation">
-          <div style="text-align: center; margin-top: 10px; font-size: 16px">
+          <div style="text-align: center; margin-top: 12px; font-size: 16px">
             <span>累计报名总量</span>
             <div
               style="
-                font-size: 24px;
+                font-size: 28px;
+                font-weight: 500;
                 margin-top: 25px;
                 margin-left: -25%;
                 text-align: center;
@@ -53,11 +57,12 @@
           </div>
         </el-col>
         <el-col :span="6" :offset="1" class="now">
-          <div style="text-align: center; margin-top: 10px">
+          <div style="text-align: center; margin-top: 12px">
             <span> 当前正在进行流程 </span>
             <div
               style="
-                font-size: 24px;
+                font-size: 28px;
+                font-weight: 500;
                 margin-top: 25px;
                 margin-left: -45%;
                 text-align: center;
@@ -68,11 +73,12 @@
           </div>
         </el-col>
         <el-col :span="5" :offset="1" class="num">
-          <div style="text-align: center; margin-top: 10px">
+          <div style="text-align: center; margin-top: 12px">
             <span> 当前流程人数 </span>
             <div
               style="
-                font-size: 24px;
+                font-size: 28px;
+                font-weight: 500;
                 margin-top: 25px;
                 margin-left: -25%;
                 text-align: center;
@@ -83,7 +89,31 @@
           </div>
         </el-col>
       </el-row>
-      <h3>报名增长趋势</h3>
+      <span
+        style="
+          display: inline-block;
+          height: 50px;
+          font-weight: 600;
+          margin-top: 20px;
+        "
+        >报名增长趋势</span
+      >
+
+        <el-date-picker
+          v-model="month"
+          type="month"
+          style="
+            display: flex;
+            float: right;
+            top: 20px;
+            right: 50px;
+            width: 100px;
+            z-index: 2;
+            font-size: 12px;
+          "
+          @change="changeMonth"
+        />
+
       <v-chart class="charts" :option="option" autoresize />
       <div class="person">
         <span class="title"> 人员管理 </span>
@@ -96,9 +126,19 @@
             border
             @row-click="test_click"
           >
-            <el-table-column prop="name" label="姓名" width="100" />
-            <el-table-column prop="no" label="学号" width="" />
-            <el-table-column prop="step" label="当前考核流程" width="" />
+            <el-table-column
+              prop="name"
+              label="姓名"
+              width="100"
+              align="center"
+            />
+            <el-table-column prop="no" label="学号" width="" align="center" />
+            <el-table-column
+              prop="step"
+              label="当前考核流程"
+              align="center"
+              width=""
+            />
           </el-table>
         </div>
       </div>
@@ -116,8 +156,18 @@
               border
               @row-click="announce_click"
             >
-              <el-table-column prop="title" label="标题" width="" />
-              <el-table-column prop="date" label="发布时间" width="" />
+              <el-table-column
+                prop="title"
+                label="标题"
+                width=""
+                align="center"
+              />
+              <el-table-column
+                prop="date"
+                label="发布时间"
+                width=""
+                align="center"
+              />
             </el-table>
           </div>
         </div>
@@ -132,8 +182,18 @@
               border
               @row-click="test_click"
             >
-              <el-table-column prop="title" label="考核名称" width="" />
-              <el-table-column prop="date" label="发布时间" width="" />
+              <el-table-column
+                prop="title"
+                label="考核名称"
+                width=""
+                align="center"
+              />
+              <el-table-column
+                prop="date"
+                label="发布时间"
+                width=""
+                align="center"
+              />
             </el-table>
           </div>
         </div>
@@ -244,6 +304,7 @@ const increase_num = ref(1111);
 const cumulation_num = ref(1212);
 const current_step = ref("一面");
 const current_num = ref(1212);
+const month = ref('2024-09');
 const up = ref(true); //较昨日新增人数 上涨
 const down = ref(false); //较昨日新增人数 下调
 const announce_click = (row, column, event) => {
@@ -321,6 +382,15 @@ const announce_click = (row, column, event) => {
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+}
+.pick-month {
+  display: flex;
+  position: relative;
+  float: right;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  height: 30px;
 }
 .charts {
   height: 300px;
