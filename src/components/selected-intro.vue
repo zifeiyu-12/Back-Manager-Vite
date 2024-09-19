@@ -1,8 +1,59 @@
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+const someCondition = false
+interface User {
+  //date: string
+  name: string
+  //address: string
+}
+const dialogVisible = ref(false)
+const title = ref('')
+const search = ref('')
+const imgArticle = ref('')
+const filterTableData = computed(() =>
+  tableData.filter(
+    (data) =>
+      !search.value ||
+      data.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+)
+const handleAdd = () => {
+  dialogVisible.value = true
+  title.value = '添加推文'
+}
+const handleEdit = (index: number, row: User) => {
+  dialogVisible.value = true
+  title.value = '编辑推文'
+  console.log(index, row)
+}
+const handleDelete = (index: number, row: User) => {
+  console.log(index, row)
+}
+
+const tableData: User[] = [
+  {
+    name: '推文1',
+  },
+  {
+    name: '推文2',
+  },
+  {
+    name: '推文3',
+  },
+  {
+    name: '推文4',
+  },
+]
+const buttonConfirm = () => {
+  dialogVisible.value = false
+}
+</script>
+
 <template>
   <div class="container">  
-    <el-button class="add_len">添加</el-button>  
+    <el-button class="add_len" @click="handleAdd">添加</el-button>
   </div>  
-  <el-card class="box-card" style="width: 97%;">
+  <el-card class="box-card" >
   <el-table :data="filterTableData" style="width: 100%;" :show-header = "false" size = "large">
     <el-table-column prop="name"/>
     <el-table-column align="right">
@@ -24,54 +75,41 @@
     </el-table-column>
   </el-table>
   </el-card>
+  <el-dialog
+    v-model="dialogVisible"
+    :title="title"
+    width="1200"
+    :before-close="handleClose"
+    align-center
+  >
+  <el-card>
+   <el-form>
+    <el-form-item label="推文名称：">
+      <el-input placeholder="请输入" style="width: 300px;"></el-input>
+    </el-form-item>
+    <el-form-item label="图片添加：" style="display: flex;flex-direction: column;align-items:start; 
+    ">
+      <el-upload>
+        <img :src="imgArticle" v-if="imgArticle"/>
+        <el-icon><Plus/></el-icon>
+      </el-upload>
+    </el-form-item>
+    <el-form-item label="推文链接：">
+      <el-input placeholder="请输入链接" style="width: 300px;"></el-input>
+    </el-form-item>
+   </el-form>
+  </el-card>
+  <el-footer><el-button class="buttonConfirm" size="large" @click="buttonConfirm">确定</el-button></el-footer>
+  </el-dialog>
 </template>
 
-<script lang="ts" setup>
-import { computed, ref } from 'vue'
-const someCondition = false
-interface User {
-  //date: string
-  name: string
-  //address: string
-}
-
-const search = ref('')
-const filterTableData = computed(() =>
-  tableData.filter(
-    (data) =>
-      !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase())
-  )
-)
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
-}
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
-}
-
-const tableData: User[] = [
-  {
-    name: '推文1',
-  },
-  {
-    name: '推文2',
-  },
-  {
-    name: '推文3',
-  },
-  {
-    name: '推文4',
-  },
-]
-</script>
 
 <style scoped>
 .container{
   display: flex;
   justify-content: flex-end;
-  margin-top: 15px;
-  margin-right: 53px;
+  margin-top: 17px;
+  margin-right: 37px;
 }
 .add_len {
   width: 80px;
@@ -82,7 +120,6 @@ const tableData: User[] = [
 }
 .box-card {
   margin-top: 25px;
-  margin-left: 25px;
   padding: 0;
 }
 .box-card :deep(.el-table__row) {  
@@ -91,5 +128,30 @@ const tableData: User[] = [
 .box-card :deep(.el-card__body) {  
  padding:0 20px;
 } 
-
+:deep(.el-upload){
+  box-sizing: border-box;
+  border: 2px dashed #bbb;
+  margin-top: 15px;
+  width: 230px;
+  height: 130px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+.el-icon{
+  font-size: 40px;
+  color: #101010;
+  text-align: center;
+}
+.el-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.buttonConfirm {
+  margin-top: 18px;
+  color:white;
+  background-color: #006eff;
+  width: 130px;
+}
 </style>

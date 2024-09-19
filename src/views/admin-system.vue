@@ -114,8 +114,8 @@ export default {
 
       tabIndex: 1,
       editableTabsValue:
-        JSON.parse(localStorage.getItem('editableTabsValue')) || 'home',
-      editableTabs: JSON.parse(localStorage.getItem('editableTabs')) || [
+        JSON.parse(sessionStorage.getItem('editableTabsValue')) || 'home',
+      editableTabs: JSON.parse(sessionStorage.getItem('editableTabs')) || [
         {
           title: '首页',
           name: 'home',
@@ -140,7 +140,7 @@ export default {
           break
         }
       }
-      localStorage.setItem(
+      sessionStorage.setItem(
         'editableTabsValue',
         JSON.stringify(this.editableTabsValue)
       )
@@ -225,13 +225,13 @@ export default {
     editableTabsValue: {
       deep: true,
       handler(newValue) {
-        localStorage.setItem('editableTabsValue', JSON.stringify(newValue))
+        sessionStorage.setItem('editableTabsValue', JSON.stringify(newValue))
       },
     },
     editableTabs: {
       deep: true,
       handler(newValue) {
-        localStorage.setItem('editableTabs', JSON.stringify(newValue))
+        sessionStorage.setItem('editableTabs', JSON.stringify(newValue))
       },
     },
   },
@@ -242,7 +242,9 @@ export default {
 .common-layout {
   margin: -8px;
 }
-
+.menu-item {
+  background-color: #f7f7f7;
+}
 .tabs-box {
   padding: 0;
 }

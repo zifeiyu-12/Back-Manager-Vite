@@ -1,10 +1,11 @@
-<template>
-    <h1>Group Intro</h1>
-</template>
-
 <script setup>
-
+import group_com from './groupCom.vue'
 </script>
+
+<template>
+  <group_com></group_com>
+  
+</template>
 
 <style scoped>
 
