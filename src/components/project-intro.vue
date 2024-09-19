@@ -1,10 +1,11 @@
+<script setup>
+import team_intro from './team-intro.vue'
+</script>
 <template>
- <h1>Project-Intro</h1>
+ <team_intro></team_intro>
 </template>
 
-<script setup>
 
-</script>
 
 <style scoped>
 
