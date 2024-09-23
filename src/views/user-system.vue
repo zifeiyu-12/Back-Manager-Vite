@@ -2,78 +2,93 @@
   <div class="common-layout">
     <!-- ElementUI 预设布局 -->
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="16%">
         <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
             <el-icon><Monitor /></el-icon>
           </span>
-          <h5 class="nav-header">{{ $route.params.oid }}</h5>
+          <h5 class="nav-header">运营组</h5>
         </div>
-
+        <!-- 侧边==导航栏 -->
         <el-menu
+          :default-active="this.$route.name"
           class="el-menu-vertical-demo"
+          @click="handleMenuOpen(this.$route.name, this.$route.path)"
           style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
-          <el-menu-item>
-            <span
-              ><el-icon color="blue"><HomeFilled /></el-icon>首页</span
-            >
+          <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
+          <el-menu-item index="home">
+            <el-icon><House /></el-icon>
+            <span>首页</span>
           </el-menu-item>
-          <el-sub-menu>
+          <el-sub-menu index="2">
             <template #title>
-              <span
-                ><el-icon><User /></el-icon>考核管理
-              </span>
+              <el-icon><User /></el-icon>
+              <span>考核管理</span>
             </template>
-            <el-menu-item index="person-management">人员管理</el-menu-item>
-            <el-menu-item index="evalution-management">考核管理</el-menu-item>
-            <el-menu-item index="appointment-management">预约管理</el-menu-item>
-            <el-menu-item index="announcement-management"
+            <el-menu-item class="menu-item" index="person-management"
+              >人员管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="evalution-management"
+              >考核管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="appointment-management"
+              >预约管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="announcement-management"
               >公告设置</el-menu-item
             >
           </el-sub-menu>
-          <el-sub-menu>
+          <el-sub-menu index="3">
             <template #title>
-              <span>
-                <el-icon><Message /></el-icon>信息管理</span
-              >
+              <el-icon><Message /></el-icon>
+              <span>信息管理</span>
             </template>
-            <el-menu-item class="menu-item">团队介绍</el-menu-item>
-            <el-menu-item class="menu-item">组别介绍</el-menu-item>
-            <el-menu-item class="menu-item">项目介绍</el-menu-item>
-            <el-menu-item class="menu-item">精选推文</el-menu-item>
+
+            <el-menu-item class="menu-item" index="group-intro"
+              >团队介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="team-intro"
+              >组别介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="project-intro"
+              >项目介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="selected-post"
+              >精选推文</el-menu-item
+            >
           </el-sub-menu>
         </el-menu>
       </el-aside>
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
-        <el-header height="85px" width="80%" class="tabs-box">
+        <el-header height="85px" class="tabs-box">
           <div class="blue">
-            <el-button type="primary" class="sign-out" @click="signOut">
+            <el-button type="primary" class="sign-out">
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <KeepAlive>
-            <el-tabs
-              v-model="xStore.state.activeIndex"
+          <KeepAlive
+            ><el-tabs
+              v-model="editableTabsValue"
               type="card"
               class="demo-tabs"
               closable
-              @tab-change="clickTab"
+              @tab-click="clickTab"
               @tab-remove="removeTab"
-              style="user-select: none"
             >
               <el-tab-pane
-                v-for="item in xStore.state.openTab"
+                v-for="item in editableTabs"
                 :key="item.name"
                 :label="item.title"
                 :name="item.name"
               >
+                {{ item.content }}
               </el-tab-pane>
-            </el-tabs>
-          </KeepAlive>
+            </el-tabs></KeepAlive
+          >
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -85,53 +100,53 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useStore } from "vuex";
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-const router = useRouter()
-const route = useRoute()
-const xStore = useStore()
+const router = useRouter();
+const route = useRoute();
+const xStore = useStore();
 
 const clickTab = async () => {
   //点击标签 跳转至 对应 路由
   // console.log('active', xStore.state.activeIndex);
-  router.push(xStore.state.activeIndex)
-}
+  router.push(xStore.state.activeIndex);
+};
 
 const removeTab = (name) => {
-  xStore.commit('deleteTab', name)
+  xStore.commit("deleteTab", name);
   if (xStore.state.activeIndex === name) {
     //如果选中状态的标签被删除
     //重新设置激活的标签 并 跳转 对应路由
     if (xStore.state.openTab.length >= 1) {
       xStore.commit(
-        'setActiveTab',
+        "setActiveTab",
         xStore.state.openTab[xStore.state.openTab.length - 1].name
-      )
+      );
       router.push({
         path: xStore.state.openTab[xStore.state.openTab.length - 1].name,
-      })
+      });
     } else {
-      xStore.commit('addTab', { title: '首页', name: 'home' })
-      xStore.commit('setActiveTab', 'home')
-      router.push('home')
+      xStore.commit("addTab", { title: "首页", name: "home" });
+      xStore.commit("setActiveTab", "home");
+      router.push("home");
     }
   }
-}
+};
 
 const signOut = () => {
-  xStore.state.openTab = []
-  sessionStorage.removeItem('state')
-}
+  xStore.state.openTab = [];
+  sessionStorage.removeItem("state");
+};
 
 onMounted(() => {
-  xStore.commit('setActiveTab', route.meta.activeMenu)
-  console.log(route.meta)
-  if (route.path == 'user-system/home') {
-    console.log(route.path)
+  xStore.commit("setActiveTab", route.meta.activeMenu);
+  console.log(route.meta);
+  if (route.path == "user-system/home") {
+    console.log(route.path);
   }
-})
+});
 </script>
 
 <style lang="css" scoped>
@@ -168,24 +183,6 @@ onMounted(() => {
   color: #006eff;
 }
 
-span {
-  width: 300px;
-  font-size: 15px;
-  color: #778187;
-}
-span:hover {
-  color: #006eff;
-}
-
-.menu-item:hover {
-  color: #006eff;
-}
-
-.menu-item {
-  font-size: 15px;
-  color: #778187;
-  background-color: #f7f7f7;
-}
 .nav {
   width: 20%;
 }
