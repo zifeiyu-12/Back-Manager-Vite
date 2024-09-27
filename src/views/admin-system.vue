@@ -104,138 +104,138 @@
 </template>
 
 <script>
-import { SwitchButton } from "@element-plus/icons";
+import { SwitchButton } from '@element-plus/icons'
 export default {
   data() {
     return {
-      goRouter: "",
+      goRouter: '',
       isCommen: false,
-      menuTitle: "",
+      menuTitle: '',
 
       tabIndex: 1,
       editableTabsValue:
-        JSON.parse(sessionStorage.getItem("editableTabsValue")) || "home",
-      editableTabs: JSON.parse(sessionStorage.getItem("editableTabs")) || [
+        JSON.parse(sessionStorage.getItem('editableTabsValue')) || 'home',
+      editableTabs: JSON.parse(sessionStorage.getItem('editableTabs')) || [
         {
-          title: "首页",
-          name: "home",
-          content: "",
+          title: '首页',
+          name: 'home',
+          content: '',
         },
       ],
-    };
+    }
   },
   methods: {
     handleMenuOpen(keyPath, Path) {
       //回调函数 -- 点击菜单 -> 增加标签页
-      this.isCommen = false;
-      let activeName = this.editableTabsValue;
-      let tabs = this.editableTabs;
-      this.editableTabsValue = activeName;
+      this.isCommen = false
+      let activeName = this.editableTabsValue
+      let tabs = this.editableTabs
+      this.editableTabsValue = activeName
       //相同标签页直接跳回去
       for (let i = 0; i < tabs.length; i++) {
         if (tabs[i].name === keyPath) {
-          activeName = i;
-          this.isCommen = true;
-          this.editableTabsValue = keyPath;
-          break;
+          activeName = i
+          this.isCommen = true
+          this.editableTabsValue = keyPath
+          break
         }
       }
       sessionStorage.setItem(
-        "editableTabsValue",
+        'editableTabsValue',
         JSON.stringify(this.editableTabsValue)
-      );
-      if (this.isCommen) return;
-      console.log(this.isCommen);
+      )
+      if (this.isCommen) return
+      console.log(this.isCommen)
 
       switch (keyPath) {
-        case "home":
-          this.menuTitle = "首页";
-          break;
-        case "person-management":
-          this.menuTitle = "人员管理";
-          break;
-        case "evalution-management":
-          this.menuTitle = "考核管理";
-          break;
-        case "appointment-management":
-          this.menuTitle = "预约管理";
-          break;
-        case "announcement-management":
-          this.menuTitle = "公告设置";
-          break;
-        case "group-intro":
-          this.menuTitle = "团队介绍";
-          break;
-        case "team-intro":
-          this.menuTitle = "组别介绍";
-          break;
-        case "project-intro":
-          this.menuTitle = "项目介绍";
-          break;
-        case "selected-post":
-          this.menuTitle = "精选推文";
-          break;
-        case "account-management":
-          this.menuTitle = "账号管理";
-          break;
+        case 'home':
+          this.menuTitle = '首页'
+          break
+        case 'person-management':
+          this.menuTitle = '人员管理'
+          break
+        case 'evalution-management':
+          this.menuTitle = '考核管理'
+          break
+        case 'appointment-management':
+          this.menuTitle = '预约管理'
+          break
+        case 'announcement-management':
+          this.menuTitle = '公告设置'
+          break
+        case 'group-intro':
+          this.menuTitle = '团队介绍'
+          break
+        case 'team-intro':
+          this.menuTitle = '组别介绍'
+          break
+        case 'project-intro':
+          this.menuTitle = '项目介绍'
+          break
+        case 'selected-post':
+          this.menuTitle = '精选推文'
+          break
+        case 'account-management':
+          this.menuTitle = '账号管理'
+          break
         default:
-          this.menuTitle = keyPath; // Fallback to keyPath if not matched
-          break;
+          this.menuTitle = keyPath // Fallback to keyPath if not matched
+          break
       }
-      console.log(this.menuTitle);
+      console.log(this.menuTitle)
       this.editableTabs.push({
         title: this.menuTitle,
         name: keyPath,
-        content: "",
-      });
-      this.editableTabsValue = keyPath;
-      this.activeMenu = keyPath;
+        content: '',
+      })
+      this.editableTabsValue = keyPath
+      this.activeMenu = keyPath
     },
     handleMenuClose(key, keyPath) {
       //回调函数 -- 关闭菜单
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     clickTab(key) {
-      this.goRouter = key["props"].name;
-      this.$router.push(this.goRouter);
-      this.editableTabsValue = this.goRouter;
+      this.goRouter = key['props'].name
+      this.$router.push(this.goRouter)
+      this.editableTabsValue = this.goRouter
     },
     removeTab(targetName) {
-      let tabs = this.editableTabs;
-      let activeName = this.editableTabsValue;
+      let tabs = this.editableTabs
+      let activeName = this.editableTabsValue
       if (activeName === targetName) {
         tabs.forEach((tab, index) => {
           if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
+            let nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
-              activeName = nextTab.name;
+              activeName = nextTab.name
             }
           }
-        });
+        })
       }
-      this.editableTabsValue = activeName;
-      this.$router.push(activeName);
-      this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+      this.editableTabsValue = activeName
+      this.$router.push(activeName)
+      this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
     },
   },
   mounted: function () {
-    this.activeMenu = "home";
+    this.activeMenu = 'home'
   },
   watch: {
     editableTabsValue: {
       deep: true,
       handler(newValue) {
-        sessionStorage.setItem("editableTabsValue", JSON.stringify(newValue));
+        sessionStorage.setItem('editableTabsValue', JSON.stringify(newValue))
       },
     },
     editableTabs: {
       deep: true,
       handler(newValue) {
-        sessionStorage.setItem("editableTabs", JSON.stringify(newValue));
+        sessionStorage.setItem('editableTabs', JSON.stringify(newValue))
       },
     },
   },
-};
+}
 </script>
 
 <style lang="css" scoped>
@@ -243,7 +243,7 @@ export default {
   margin: -8px;
 }
 .menu-item {
-background-color: #f7f7f7;
+  background-color: #f7f7f7;
 }
 .tabs-box {
   padding: 0;

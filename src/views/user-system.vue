@@ -2,18 +2,19 @@
   <div class="common-layout">
     <!-- ElementUI 预设布局 -->
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="16%">
         <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
             <el-icon><Monitor /></el-icon>
           </span>
-          <h5 class="nav-header">{{ $route.params.oid }}</h5>
+          <h5 class="nav-header">运营组</h5>
         </div>
         <!-- 侧边==导航栏 -->
         <el-menu
-          :default-active="$route.meta.activeMenu"
+          :default-active="this.$route.name"
           class="el-menu-vertical-demo"
+          @click="handleMenuOpen(this.$route.name, this.$route.path)"
           style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
@@ -22,15 +23,21 @@
             <el-icon><House /></el-icon>
             <span>首页</span>
           </el-menu-item>
-          <el-sub-menu index="user-system">
+          <el-sub-menu index="2">
             <template #title>
               <el-icon><User /></el-icon>
               <span>考核管理</span>
             </template>
-            <el-menu-item index="person-management">人员管理</el-menu-item>
-            <el-menu-item index="evalution-management">考核管理</el-menu-item>
-            <el-menu-item index="appointment-management">预约管理</el-menu-item>
-            <el-menu-item index="announcement-management"
+            <el-menu-item class="menu-item" index="person-management"
+              >人员管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="evalution-management"
+              >考核管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="appointment-management"
+              >预约管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="announcement-management"
               >公告设置</el-menu-item
             >
           </el-sub-menu>
@@ -39,40 +46,49 @@
               <el-icon><Message /></el-icon>
               <span>信息管理</span>
             </template>
-            <el-menu-item index="group-intro">团队介绍</el-menu-item>
-            <el-menu-item index="team-intro">组别介绍</el-menu-item>
-            <el-menu-item index="project-intro">项目介绍</el-menu-item>
-            <el-menu-item index="selected-post">精选推文</el-menu-item>
+
+            <el-menu-item class="menu-item" index="group-intro"
+              >团队介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="team-intro"
+              >组别介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="project-intro"
+              >项目介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="selected-post"
+              >精选推文</el-menu-item
+            >
           </el-sub-menu>
         </el-menu>
       </el-aside>
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
-        <el-header height="85px" width="80%" class="tabs-box">
+        <el-header height="85px" class="tabs-box">
           <div class="blue">
-            <el-button type="primary" class="sign-out" @click="signOut">
+            <el-button type="primary" class="sign-out">
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <KeepAlive>
-            <el-tabs
-              v-model="xStore.state.activeIndex"
+          <KeepAlive
+            ><el-tabs
+              v-model="editableTabsValue"
               type="card"
               class="demo-tabs"
               closable
-              @tab-change="clickTab"
+              @tab-click="clickTab"
               @tab-remove="removeTab"
-              style="user-select: none"
             >
               <el-tab-pane
-                v-for="item in xStore.state.openTab"
+                v-for="item in editableTabs"
                 :key="item.name"
                 :label="item.title"
                 :name="item.name"
               >
+                {{ item.content }}
               </el-tab-pane>
-            </el-tabs>
-          </KeepAlive>
+            </el-tabs></KeepAlive
+          >
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -133,8 +149,6 @@ onMounted(() => {
 });
 </script>
 
-
-
 <style lang="css" scoped>
 .common-layout {
   margin: -8px;
@@ -144,7 +158,7 @@ onMounted(() => {
   padding: 0;
 }
 
-.circle{
+.circle {
   height: 30px;
   width: 30px;
   border-radius: 50cqb;
@@ -155,51 +169,31 @@ onMounted(() => {
   color: white;
 }
 
-.header{
+.header {
   margin-left: 20px;
   width: 100px;
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content:space-between;
-  
+  justify-content: space-between;
 }
 
-.nav-header{
+.nav-header {
   font-size: 22px;
-  color:#006eff;
+  color: #006eff;
 }
 
-span{
-  width: 300px;
-   font-size: 15px;
-  color: #778187;
-}
-span:hover {
- color:#006eff;
-}
-
-.menu-item:hover{
- color:#006eff;
-
-}
-
-.menu-item{
-  font-size: 15px;
-  color: #778187;
-  background-color: #f7f7f7
-}
-.nav{
+.nav {
   width: 20%;
 }
 
-.content{
-width: 80%;
-height: 500px;
-background-color: #fff;
+.content {
+  width: 80%;
+  height: 500px;
+  background-color: #fff;
 }
 
-.blue{
+.blue {
   width: 100%;
   height: 60px;
   background-color: #006eff;
@@ -211,31 +205,27 @@ background-color: #fff;
   top: 12px;
 }
 
-.nav-left{
+.nav-left {
   float: left;
 }
 
-.nav-right{
-  float:right
+.nav-right {
+  float: right;
 }
 
-.sub-nav span{
-
+.sub-nav span {
   font-size: 17px;
-  padding:15px;
+  padding: 15px;
   height: 50px;
   width: 50px;
   line-height: 50px;
- /* display: inline-block; */
+  /* display: inline-block; */
   border-left: 0;
-  border-right:1px solid #e4e4e4;
+  border-right: 1px solid #e4e4e4;
 }
 
-
-.update{
-padding-right: 10px;
-font-size: 17px;
-
+.update {
+  padding-right: 10px;
+  font-size: 17px;
 }
-
 </style>
