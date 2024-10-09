@@ -12,12 +12,13 @@
         </div>
 
         <el-menu
+          :default-active="$route.meta.activeMenu"
           class="el-menu-vertical-demo"
           @click="handleMenuOpen(this.$route.name, this.$route.path)"
           style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
-          <el-menu-item>
+          <el-menu-item index="home">
             <span
               ><el-icon color="blue"><HomeFilled /></el-icon>首页</span
             >
@@ -47,10 +48,18 @@
                 <el-icon><Message /></el-icon>信息管理</span
               >
             </template>
-            <el-menu-item class="menu-item">团队介绍</el-menu-item>
-            <el-menu-item class="menu-item">组别介绍</el-menu-item>
-            <el-menu-item class="menu-item">项目介绍</el-menu-item>
-            <el-menu-item class="menu-item">精选推文</el-menu-item>
+            <el-menu-item class="menu-item" index="group-intro"
+              >团队介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="team-intro"
+              >组别介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="project-intro"
+              >项目介绍</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="selected-post"
+              >精选推文</el-menu-item
+            >
           </el-sub-menu>
         </el-menu>
       </el-aside>
@@ -62,44 +71,25 @@
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              border-bottom: 1px solid #e4e7ed;
-              height: 40px;
-            "
-          >
-            <div style="display: flex; align-items: center">
-              <el-icon style="width: 40px"><ArrowLeft /></el-icon>
-              <el-tabs
-                style="margin-bottom: -15px"
-                v-model="editableTabsValue"
-                type="card"
-                class="demo-tabs"
-                closable
-                @tab-click="clickTab"
-                @tab-remove="removeTab"
+          <KeepAlive>
+            <el-tabs
+              v-model="xStore.state.activeIndex"
+              type="card"
+              class="demo-tabs"
+              closable
+              @tab-change="clickTab"
+              @tab-remove="removeTab"
+              style="user-select: none"
+            >
+              <el-tab-pane
+                v-for="item in xStore.state.openTab"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
               >
-                <el-tab-pane
-                  v-for="item in editableTabs"
-                  :key="item.name"
-                  :label="item.title"
-                  :name="item.name"
-                >
-                  {{ item.content }}
-                </el-tab-pane>
-              </el-tabs>
-            </div>
-
-            <div>
-              <el-icon style="width: 40px; /* height: 45px; */"
-                ><ArrowRight
-              /></el-icon>
-              <el-icon style="width: 70px"><Refresh /> 刷新</el-icon>
-            </div>
-          </div>
+              </el-tab-pane>
+            </el-tabs>
+          </KeepAlive>
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -208,6 +198,7 @@ span:hover {
 }
 
 .menu-item {
+  margin-left: 10px;
   font-size: 15px;
   color: #778187;
   background-color: #f7f7f7;
