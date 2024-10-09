@@ -2,45 +2,50 @@
   <div class="personBox" style="margin-top: 20px" v-if="showPage === 'page1'">
     <el-card style="min-width: 95%" class="personTop">
       <el-form inline>
-        <el-form-item label="姓名：">
-          <el-input placeholder="请输入姓名" v-model="name"> </el-input>
-        </el-form-item>
-        <el-form-item label="学号：">
-          <el-input placeholder="请输入学号" v-model="id"> </el-input>
-        </el-form-item>
-        <el-form-item label="年级：">
-          <el-select v-model="grade" placeholder="请选择年级">
-            <el-option label="2021" value="2021"></el-option>
-            <el-option label="2022" value="2022"></el-option>
-            <el-option label="2023" value="2023"></el-option>
-            <el-option label="2024" value="2024"></el-option>
-            <el-option label="2025" value="2025"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="学院：">
-          <el-select v-model="academy" placeholder="请选择学院">
-            <el-option label="计算机学院" value="计算机学院"></el-option>
-            <el-option label="信息工程学院" value="信息工程学院"></el-option>
-            <el-option label="自动化学院" value="自动化学院"></el-option>
-            <el-option label="外国语学院" value="外国语学院"></el-option>
-            <el-option label="机电工程学院" value="机电工程学院"></el-option>
-            <el-option label="集成电路学院" value="集成电路学院"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="当前考核流程：">
-          <el-select v-model="process" placeholder="请选择考核流程">
-            <el-option label="第一次考核" value="第一次考核"></el-option>
-            <el-option label="第二次考核" value="第二次考核"></el-option>
-            <el-option label="第三次考核" value="第三次考核"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item></el-form-item>
-        <el-form-item class="buttonBox">
-          <el-button style="width: 80px; color: #959595">搜索</el-button>
-          <el-button style="width: 80px; color: #959595; margin-left: 50px"
-            >重置</el-button
-          ></el-form-item
-        >
+        <div style="display: flex; justify-content: space-between">
+          <el-form-item label="姓名：">
+            <el-input placeholder="请输入姓名" v-model="name"> </el-input>
+          </el-form-item>
+          <el-form-item label="学号：">
+            <el-input placeholder="请输入学号" v-model="id"> </el-input>
+          </el-form-item>
+          <el-form-item label="年级：">
+            <el-select v-model="grade" placeholder="请选择年级">
+              <el-option label="2021" value="2021"></el-option>
+              <el-option label="2022" value="2022"></el-option>
+              <el-option label="2023" value="2023"></el-option>
+              <el-option label="2024" value="2024"></el-option>
+              <el-option label="2025" value="2025"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="学院：">
+            <el-select v-model="academy" placeholder="请选择学院">
+              <el-option label="计算机学院" value="计算机学院"></el-option>
+              <el-option label="信息工程学院" value="信息工程学院"></el-option>
+              <el-option label="自动化学院" value="自动化学院"></el-option>
+              <el-option label="外国语学院" value="外国语学院"></el-option>
+              <el-option label="机电工程学院" value="机电工程学院"></el-option>
+              <el-option label="集成电路学院" value="集成电路学院"></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <div style="display: flex; justify-content: space-between">
+          <el-form-item label="当前考核流程">
+            <el-select v-model="process" placeholder="请选择考核流程">
+              <el-option label="第一次考核" value="第一次考核"></el-option>
+              <el-option label="第二次考核" value="第二次考核"></el-option>
+              <el-option label="第三次考核" value="第三次考核"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item></el-form-item>
+          <el-form-item class="buttonBox">
+            <el-button style="width: 80px; color: #959595">搜索</el-button>
+            <el-button style="width: 80px; color: #959595; margin-left: 30px"
+              >重置</el-button
+            ></el-form-item
+          >
+        </div>
       </el-form>
     </el-card>
     <el-card style="min-width: 95%" class="personBottom">
@@ -79,9 +84,9 @@
         <el-table-column
           label="专业班级"
           prop="class"
-          width="140"
+          width="150"
         ></el-table-column>
-        <el-table-column label="操作" width="140">
+        <el-table-column label="操作">
           <template #default>
             <el-button @click="goToPage2">查看</el-button>
           </template>
@@ -340,6 +345,11 @@ const activities = [
   align-items: center;
   justify-content: center;
   border-right: 1px solid white;
+}
+
+.el-table {
+  --el-table-header-bg-color: #4095e5;
+  --el-table-header-text-color: #ffffff;
 }
 
 .detailMain {

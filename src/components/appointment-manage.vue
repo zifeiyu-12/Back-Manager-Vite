@@ -218,6 +218,7 @@ const appointId = ref('')
 const data = ref('')
 const gap = ref('')
 const sum = ref('')
+const date = ref('')
 
 const goToPerson = () => {
   router.push({ name: 'person-management' })
