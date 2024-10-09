@@ -2,17 +2,18 @@
   <div class="common-layout">
     <!-- ElementUI 预设布局 -->
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="16%">
         <!-- 侧边==账号名字 -->
         <div class="header">
           <span class="circle">
             <el-icon><Monitor /></el-icon>
           </span>
-          <h5 class="nav-header">{{ $route.params.oid }}</h5>
+          <h5 class="nav-header">运营组</h5>
         </div>
 
         <el-menu
           class="el-menu-vertical-demo"
+          @click="handleMenuOpen(this.$route.name, this.$route.path)"
           style="user-select: none; min-height: calc(100% - 60px)"
           router
         >
@@ -27,10 +28,16 @@
                 ><el-icon><User /></el-icon>考核管理
               </span>
             </template>
-            <el-menu-item index="person-management">人员管理</el-menu-item>
-            <el-menu-item index="evalution-management">考核管理</el-menu-item>
-            <el-menu-item index="appointment-management">预约管理</el-menu-item>
-            <el-menu-item index="announcement-management"
+            <el-menu-item class="menu-item" index="person-management"
+              >人员管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="evalution-management"
+              >考核管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="appointment-management"
+              >预约管理</el-menu-item
+            >
+            <el-menu-item class="menu-item" index="announcement-management"
               >公告设置</el-menu-item
             >
           </el-sub-menu>
@@ -49,31 +56,31 @@
       </el-aside>
       <el-container>
         <!-- 主体==头部==蓝色条块 以及 可增减标签页 -->
-        <el-header height="85px" width="80%" class="tabs-box">
+        <el-header height="85px" class="tabs-box">
           <div class="blue">
-            <el-button type="primary" class="sign-out" @click="signOut">
+            <el-button type="primary" class="sign-out">
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <KeepAlive>
-            <el-tabs
-              v-model="xStore.state.activeIndex"
+          <KeepAlive
+            ><el-tabs
+              v-model="editableTabsValue"
               type="card"
               class="demo-tabs"
               closable
-              @tab-change="clickTab"
+              @tab-click="clickTab"
               @tab-remove="removeTab"
-              style="user-select: none"
             >
               <el-tab-pane
-                v-for="item in xStore.state.openTab"
+                v-for="item in editableTabs"
                 :key="item.name"
                 :label="item.title"
                 :name="item.name"
               >
+                {{ item.content }}
               </el-tab-pane>
-            </el-tabs>
-          </KeepAlive>
+            </el-tabs></KeepAlive
+          >
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
