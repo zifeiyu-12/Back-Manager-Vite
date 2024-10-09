@@ -9,7 +9,7 @@
           </div>
           <div
             style="
-              font-size: 28px;
+              font-size: 20px;
               font-weight: 500;
               margin-top: 25px;
               margin-left: -25%;
@@ -45,7 +45,7 @@
             <span>累计报名总量</span>
             <div
               style="
-                font-size: 28px;
+                font-size: 20px;
                 font-weight: 500;
                 margin-top: 25px;
                 margin-left: -25%;
@@ -61,7 +61,7 @@
             <span> 当前正在进行流程 </span>
             <div
               style="
-                font-size: 28px;
+                font-size: 20px;
                 font-weight: 500;
                 margin-top: 25px;
                 margin-left: -45%;
@@ -77,7 +77,7 @@
             <span> 当前流程人数 </span>
             <div
               style="
-                font-size: 28px;
+                font-size: 20px;
                 font-weight: 500;
                 margin-top: 25px;
                 margin-left: -25%;

@@ -54,21 +54,24 @@
             </el-button>
           </div>
           <keep-alive>
-            <el-tabs
-              v-model="xStore.state.activeIndex"
-              type="card"
-              class="demo-tabs"
-              closable
-              @tab-change="clickTab"
-              @tab-remove="removeTab"
-              style="user-select: none">
-              <el-tab-pane
-                v-for="item in xStore.state.openTab"
-                :key="item.name"
-                :label="item.title"
-                :name="item.name">
-              </el-tab-pane>
-            </el-tabs>
+            <div style="position: relative">
+              <el-tabs
+                v-model="xStore.state.activeIndex"
+                type="card"
+                class="demo-tabs"
+                closable
+                @tab-change="clickTab"
+                @tab-remove="removeTab"
+                style="user-select: none">
+                <el-tab-pane
+                  v-for="item in xStore.state.openTab"
+                  :key="item.name"
+                  :label="item.title"
+                  :name="item.name">
+                </el-tab-pane>
+              </el-tabs>
+              <el-button :icon="Refresh" class="refresh-button">刷新</el-button>
+            </div>
           </keep-alive>
         </el-header>
         <el-main>
@@ -84,6 +87,7 @@
 import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { Refresh } from "@element-plus/icons";
 
 const router = useRouter();
 const route = useRoute();
@@ -178,5 +182,21 @@ onMounted(() => {
   position: absolute;
   right: 15px;
   top: 12px;
+}
+
+.refresh-button {
+  box-sizing: border-box;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  right: 8px;
+}
+
+:deep(.el-tabs--card) {
+  width: calc(100% - 88px);
+}
+
+:deep(.el-tabs--card > .el-tabs__header .el-tabs__nav) {
+  border-radius: 0;
 }
 </style>
