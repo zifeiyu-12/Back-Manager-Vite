@@ -12,16 +12,15 @@
         </div>
         <!-- 侧边==导航栏 -->
         <el-menu
-          :default-active="this.$route.name"
+          :default-active="$route.meta.activeMenu"
           class="el-menu-vertical-demo"
           @click="handleMenuOpen(this.$route.name, this.$route.path)"
           style="user-select: none; min-height: calc(100% - 60px)"
-          router
-        >
-          <!-- (index) 首页 1  || 考核管理 2 -> 人员管理 2-1 | 考核管理 2-2 | 预约管理 2-3 | 公告设置 2-4 || 信息管理 3 -> 团队管理 3-1 | 组别管理 3-2 | 项目介绍 3-3 | 精选推文 3-4 || -->
+          router>
           <el-menu-item index="home">
-            <el-icon><House /></el-icon>
-            <span>首页</span>
+            <span
+              ><el-icon color="blue"><HomeFilled /></el-icon>首页</span
+            >
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
@@ -46,7 +45,6 @@
               <el-icon><Message /></el-icon>
               <span>信息管理</span>
             </template>
-
             <el-menu-item class="menu-item" index="group-intro"
               >团队介绍</el-menu-item
             >
@@ -77,14 +75,12 @@
               class="demo-tabs"
               closable
               @tab-click="clickTab"
-              @tab-remove="removeTab"
-            >
+              @tab-remove="removeTab">
               <el-tab-pane
                 v-for="item in editableTabs"
                 :key="item.name"
                 :label="item.title"
-                :name="item.name"
-              >
+                :name="item.name">
                 {{ item.content }}
               </el-tab-pane>
             </el-tabs></KeepAlive
@@ -181,6 +177,26 @@ onMounted(() => {
 .nav-header {
   font-size: 22px;
   color: #006eff;
+}
+
+span {
+  width: 300px;
+  font-size: 15px;
+  color: #778187;
+}
+span:hover {
+  color: #006eff;
+}
+
+.menu-item:hover {
+  color: #006eff;
+}
+
+.menu-item {
+  margin-left: 10px;
+  font-size: 15px;
+  color: #778187;
+  background-color: #f7f7f7;
 }
 
 .nav {

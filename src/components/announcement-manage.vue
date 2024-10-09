@@ -15,9 +15,11 @@
         <el-table-column label="标题" prop="title"></el-table-column>
         <el-table-column label="发布时间" prop="time"></el-table-column>
         <el-table-column label="发布人员" prop="author"></el-table-column>
-        <el-table-column label="操作" #default width="380">
-          <el-button> 编辑 </el-button>
-          <el-button> 删除 </el-button>
+        <el-table-column label="操作" width="380">
+          <template #default>
+            <el-button> 编辑 </el-button>
+            <el-button> 删除 </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>

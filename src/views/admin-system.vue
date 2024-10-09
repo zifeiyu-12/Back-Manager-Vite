@@ -74,25 +74,44 @@
               <el-icon class="el-icon--left"><SwitchButton /></el-icon>退出登录
             </el-button>
           </div>
-          <KeepAlive
-            ><el-tabs
-              v-model="editableTabsValue"
-              type="card"
-              class="demo-tabs"
-              closable
-              @tab-click="clickTab"
-              @tab-remove="removeTab"
-            >
-              <el-tab-pane
-                v-for="item in editableTabs"
-                :key="item.name"
-                :label="item.title"
-                :name="item.name"
-              >
-                {{ item.content }}
-              </el-tab-pane>
-            </el-tabs></KeepAlive
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #e4e7ed;
+              height: 40px;
+            "
           >
+            <div style="display: flex; align-items: center">
+              <el-icon style="width: 40px"><ArrowLeft /></el-icon>
+              <el-tabs
+                style="margin-bottom: -15px"
+                v-model="editableTabsValue"
+                type="card"
+                class="demo-tabs"
+                closable
+                @tab-click="clickTab"
+                @tab-remove="removeTab"
+              >
+                <el-tab-pane
+                  v-for="item in editableTabs"
+                  :key="item.name"
+                  :label="item.title"
+                  :name="item.name"
+                >
+                  {{ item.content }}
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+
+            <div>
+              <el-icon style="width: 40px; /* height: 45px; */"
+                ><ArrowRight
+              /></el-icon>
+              <el-icon style="width: 70px"><Refresh /> 刷新</el-icon>
+            </div>
+          </div>
         </el-header>
         <el-main>
           <!-- 主题==重要内容 -->
@@ -247,6 +266,10 @@ export default {
 }
 .tabs-box {
   padding: 0;
+}
+
+.el-icon {
+  cursor: pointer;
 }
 
 .circle {
